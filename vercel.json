@@ -19,12 +19,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "client/client/build/$1"
+        "dest": "/client/client/build/$1"
       }
-    ],
-
-    "build": {
-        "command": "cd client/client && npm install && npm run build && cd .. && npm install"
-      }
-    }
-  
+    ]
+  }
