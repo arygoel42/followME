@@ -7,17 +7,29 @@ const path = require('path');
 const axios = require('axios');
 
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../dist')));
+const session = require('express-session');
 
-
-//catchcall when no backend routes are called
-
-const hardcodedRedirectURI = 'https://localhost:3006/profile';
 
 const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
+
+app.use(session({
+    secret: 'alpha-tiger-mongo', // Replace with your own secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set secure: true if using HTTPS in production
+}));
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+
+//catchcall when no backend routes are called
+
+const hardcodedRedirectURI = 'https://localhost:3006/callback';
+
+
 
 const sslOptions = {
     key: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
@@ -29,9 +41,10 @@ app.get('/auth/instagram', (req, res) => {
     console.log('authenticating user')
     
 });
+ app.get('/callback' , async (req, res) => {
 
-app.get('/callback', async (req, res) => {
-    app.get('/callback', async (req, res) => {
+ 
+    app.get('/callback', async (req, res) => { ///reminder pointer
         const { code } = req.query;
         res.send('code recieved')
     
@@ -68,8 +81,10 @@ app.get('/callback', async (req, res) => {
             console.error('Error exchanging code for token:', error.response ? error.response.data : error.message);
             res.status(500).send('An error occurred');
         }
-    });
-});
+    })
+    })
+    
+
 
 app.post('/', (req, res) => {
 
@@ -113,7 +128,7 @@ app.get('/profile', async (req, res) => {
 // });
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
   });
   
 
@@ -121,6 +136,6 @@ app.get('*', (req, res) => {
 //     console.log('HTTP Server running at http://localhost:3006');
 // });
 
-https.createServer(sslOptions, app).listen(3006, 'localhost', () => {
-    console.log('HTTPS Server running at https://localhost:3006');
-  });
+// https.createServer(sslOptions, app).listen(3006, 'localhost', () => {
+//     console.log('HTTPS Server running at https://localhost:3006');
+//   });
