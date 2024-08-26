@@ -6,5 +6,6 @@ export default defineConfig({
   build: {
     outDir: 'dist' // Adjust if necessary
   },
-  plugins: [react()]
-});
+  plugins: [react()], 
+})
+
