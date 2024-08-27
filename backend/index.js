@@ -14,11 +14,14 @@ const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
+const FileStore = require('session-file-store')(session);
+
 app.use(session({
-    secret: 'alpha-tiger-mongo', // Replace with your own secret key
+    secret: 'alpha-tiger-mongo',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } // Set secure: true if using HTTPS in production
+    store: new FileStore({ path: './sessions' }),
+    cookie: { secure: false }
 }));
 
 app.use(express.json());
