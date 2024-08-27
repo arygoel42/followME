@@ -53,7 +53,7 @@ app.get('/api/auth/instagram', (req, res) => {
     console.log('authenticating user')
     
 });
-console.time(
+
  app.get('/api/callback' , async (req, res) => {
 
  
@@ -96,7 +96,7 @@ console.time(
         }
     })
     })
-)
+
 
 
 app.post('/', (req, res) => {
@@ -111,6 +111,7 @@ app.post('/', (req, res) => {
 app.get('/api/profile', async (req, res) => {
     const access_token = req.session.accessToken;
     const user_id = req.session.userID;
+    console.time()
 
     if (!access_token || !user_id) {
         res.status(401).send('Unauthorized');
