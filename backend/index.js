@@ -25,13 +25,14 @@ const clientSecret = process.env.instagram_Client_Secret;
 // const RedisStore = require('connect-redis')(session);
 // const redis = require('redis');
 // const client = redis.createClient();
-app.use(session({
-    secret: 'alpha-tiger-mongo',
-    resave: false,
-     saveUninitialized: true,
-    store: new RedisStore({ client }),
-    cookie: { secure: false }
-}));
+
+// app.use(session({
+//     secret: 'alpha-tiger-mongo',
+//     resave: false,
+//      saveUninitialized: true,
+//     store: new RedisStore({ client }),
+//     cookie: { secure: false }
+// }));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
