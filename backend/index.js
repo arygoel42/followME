@@ -14,13 +14,15 @@ const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
-const FileStore = require('session-file-store')(session);
+const RedisStore = require('connect-redis')(session);
+const redis = require('redis');
+const client = redis.createClient();
 
 app.use(session({
     secret: 'alpha-tiger-mongo',
     resave: false,
     saveUninitialized: true,
-    store: new FileStore({ path: './sessions' }),
+    store: new RedisStore({ client }),
     cookie: { secure: false }
 }));
 
@@ -134,7 +136,7 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
   });
   
-
+module.exports = app;
 // app.listen(3006, () => {
 //     console.log('HTTP Server running at http://localhost:3006');
 // });
