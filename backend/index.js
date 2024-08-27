@@ -17,11 +17,11 @@ const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
 
-// app.use(cors({
-//     origin: 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback', // or '*' to allow all origins
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials: true,
-// }));
+app.use(cors({
+     origin: 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback', // or '*' to allow all origins
+     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+     credentials: true,
+ }));
 
 // const RedisStore = require('connect-redis')(session);
 // const redis = require('redis');
@@ -56,7 +56,7 @@ app.get('/api/auth/instagram', (req, res) => {
     
 });
 
- app.get('/api/callback' , async (req, res) => {
+ //app.get('/api/callback' , async (req, res) => {
 
  
     app.get('/api/callback', async (req, res) => { ///reminder pointer
@@ -97,7 +97,7 @@ app.get('/api/auth/instagram', (req, res) => {
             res.status(500).send('An error occurred');
         }
     })
-    })
+   // })
 
 
 
