@@ -15,11 +15,7 @@ const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
 
-app.use(cors({
-    origin: '*', // or '*' to allow all origins
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-}));
+
 
 // const RedisStore = require('connect-redis')(session);
 // const redis = require('redis');
