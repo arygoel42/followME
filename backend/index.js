@@ -34,6 +34,11 @@ const clientSecret = process.env.instagram_Client_Secret;
 //     cookie: { secure: false }
 // }));
 
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+});
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
@@ -55,7 +60,7 @@ app.get('/api/auth/instagram', (req, res) => {
     
 });
 
- app.get('/api/callback' , async (req, res) => {
+ //app.get('/api/callback' , async (req, res) => {
 
  
     app.get('/api/callback', async (req, res) => { ///reminder pointer
@@ -96,7 +101,7 @@ app.get('/api/auth/instagram', (req, res) => {
             res.status(500).send('An error occurred');
         }
     })
-    })
+  //  })
 
 
 
