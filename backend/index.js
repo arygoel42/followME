@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 //catchcall when no backend routes are called
 
-const hardcodedRedirectURI = 'https://localhost:3006/callback';
+const hardcodedRedirectURI = 'https://follow-me-eight.vercel.app/callback';
 
 
 
