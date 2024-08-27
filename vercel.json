@@ -1,12 +1,15 @@
 {
   "builds": [
     {
-      "src": "client/package.json",
-      "use": "@vercel/static-build"
+      "src": "backend/index.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["backend/package.json"]
+      }
     },
     {
-      "src": "backend/index.js",
-      "use": "@vercel/node"
+      "src": "client/package.json",
+      "use": "@vercel/static-build"
     }
   ],
   "routes": [
@@ -19,5 +22,4 @@
       "dest": "/client/index.html"
     }
   ]
-  
 }
