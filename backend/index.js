@@ -16,7 +16,7 @@ const clientSecret = process.env.instagram_Client_Secret;
 
 
 app.use(cors({
-    origin: 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app', // or '*' to allow all origins
+    origin: '*', // or '*' to allow all origins
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
 }));
