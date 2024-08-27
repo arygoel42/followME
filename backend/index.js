@@ -53,6 +53,7 @@ app.get('/api/auth/instagram', (req, res) => {
     console.log('authenticating user')
     
 });
+console.time(
  app.get('/api/callback' , async (req, res) => {
 
  
@@ -95,7 +96,7 @@ app.get('/api/auth/instagram', (req, res) => {
         }
     })
     })
-    
+)
 
 
 app.post('/', (req, res) => {
