@@ -14,9 +14,9 @@ const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
-const RedisStore = require('connect-redis')(session);
-const redis = require('redis');
-const client = redis.createClient();
+// const RedisStore = require('connect-redis')(session);
+// const redis = require('redis');
+// const client = redis.createClient();
 
 // app.use(session({
 //     secret: 'alpha-tiger-mongo',
