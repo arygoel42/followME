@@ -22,9 +22,6 @@
       "dest": "/client/index.html"
     }
     
-  ],
-
-  "permissions": [
-    "*://*.instagram.com/*"
-]
+  ]
+  
 }
