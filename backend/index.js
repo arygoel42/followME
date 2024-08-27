@@ -26,14 +26,13 @@ const clientSecret = process.env.instagram_Client_Secret;
 // const RedisStore = require('connect-redis')(session);
 // const redis = require('redis');
 // const client = redis.createClient();
-
-// app.use(session({
-//     secret: 'alpha-tiger-mongo',
-//     resave: false,
-//     saveUninitialized: true,
-//     store: new RedisStore({ client }),
-//     cookie: { secure: false }
-// }));
+app.use(session({
+    secret: 'alpha-tiger-mongo',
+    resave: false,
+     saveUninitialized: true,
+    store: new RedisStore({ client }),
+    cookie: { secure: false }
+}));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
@@ -56,7 +55,7 @@ app.get('/api/auth/instagram', (req, res) => {
     
 });
 
- //app.get('/api/callback' , async (req, res) => {
+ app.get('/api/callback' , async (req, res) => {
 
  
     app.get('/api/callback', async (req, res) => { ///reminder pointer
@@ -97,7 +96,7 @@ app.get('/api/auth/instagram', (req, res) => {
             res.status(500).send('An error occurred');
         }
     })
-   // })
+    })
 
 
 
