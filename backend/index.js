@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 
 //catchcall when no backend routes are called
 
-const hardcodedRedirectURI = 'https://follow-me-eight.vercel.app/callback';
+const hardcodedRedirectURI = 'https://follow-me-eight.vercel.app/api/callback';
 
 
 
@@ -36,15 +36,15 @@ const sslOptions = {
     cert: fs.readFileSync(path.resolve(__dirname, 'cert.pem')),
 };
 
-app.get('/auth/instagram', (req, res) => {
+app.get('api/auth/instagram', (req, res) => {
     res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
     console.log('authenticating user')
     
 });
- app.get('/callback' , async (req, res) => {
+ app.get('/api/callback' , async (req, res) => {
 
  
-    app.get('/callback', async (req, res) => { ///reminder pointer
+    app.get('/api/callback', async (req, res) => { ///reminder pointer
         const { code } = req.query;
         res.send('code recieved')
     
@@ -76,7 +76,7 @@ app.get('/auth/instagram', (req, res) => {
             // Handle response
             req.session.accessToken = response.data.access_token;
             req.session.userId = response.data.user_id;
-            res.redirect('/profile');
+            res.redirect('/api/profile');
         } catch (error) {
             console.error('Error exchanging code for token:', error.response ? error.response.data : error.message);
             res.status(500).send('An error occurred');
@@ -95,7 +95,7 @@ app.post('/', (req, res) => {
 
 
 
-app.get('/profile', async (req, res) => {
+app.get('/api/profile', async (req, res) => {
     const access_token = req.session.accessToken;
     const user_id = req.session.userID;
 
