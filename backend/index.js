@@ -16,13 +16,13 @@ const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
 
-app.use((req, res, next) => {
-    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+//     next();
+// });
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../client/dist')));
+// app.use(express.static(path.join(__dirname, '../client/dist')));
 
 
 //catchcall when no backend routes are called
@@ -37,16 +37,16 @@ const sslOptions = {
 };
 
 app.get('/api/auth/instagram', async (req, res) => {
-    const params_1 = new URLSearchParams();
-    params_1.append('client_id', clientId);
-    params_1.append('redirect_uri', hardcodedRedirectURI);
-    params_1.append('scope', 'user_profile,user_media');
-    params_1.append('response_type', 'code');
+    // const params_1 = new URLSearchParams();
+    // params_1.append('client_id', clientId);
+    // params_1.append('redirect_uri', hardcodedRedirectURI);
+    // params_1.append('scope', 'user_profile,user_media');
+    // params_1.append('response_type', 'code');
 
-    // res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
-    // console.log('authenticating user')
+    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
+    console.log('authenticating user')
 
-    const response_1 = await axios.get(`https://api.instagram.com/oauth/authorize?${params_1.toString()}`);
+   
     
     
     
