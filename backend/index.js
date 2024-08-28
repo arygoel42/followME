@@ -16,24 +16,6 @@ const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
 
-// app.use(cors({
-//      origin: 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback', // or '*' to allow all origins
-//      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//      credentials: true,
-//  }));
-
-// const RedisStore = require('connect-redis')(session);
-// const redis = require('redis');
-// const client = redis.createClient();
-
-// app.use(session({
-//     secret: 'alpha-tiger-mongo',
-//     resave: false,
-//      saveUninitialized: true,
-//     store: new RedisStore({ client }),
-//     cookie: { secure: false }
-// }));
-
 app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     next();
@@ -55,8 +37,16 @@ const sslOptions = {
 };
 
 app.get('/api/auth/instagram', async (req, res) => {
-    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
-    console.log('authenticating user')
+    const params_1 = new URLSearchParams();
+    params_1.append('client_id', clientId);
+    params_1.append('redirect_uri', hardcodedRedirectURI);
+    params_1.append('scope', 'user_profile,user_media');
+    params_1.append('response_type', 'code');
+
+    // res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
+    // console.log('authenticating user')
+
+    const response_1 = await axios.get(`https://api.instagram.com/oauth/authorize?${params_1.toString()}`);
     
     
     
@@ -88,7 +78,7 @@ app.get('/api/auth/instagram', async (req, res) => {
     
         //     console.log("Request Params:", params.toString());
     
-        //     const response = await axios.post('https://api.instagram.com/oauth/authorize', params.toString(), {
+        //     const response = await axios.post('https://api.instagram.com/oauth/access_token', params.toString(), {
         //         headers: {
         //             'Content-Type': 'application/x-www-form-urlencoded',
         //         },
