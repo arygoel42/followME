@@ -62,7 +62,7 @@ app.get('/api/auth/instagram', (req, res) => {
     
 });
 
- //app.get('/api/callback' , async (req, res) => {
+ app.get('/api/callback' , async (req, res) => {
 
  
     app.get('/api/callback', async (req, res) => { ///reminder pointer
@@ -104,7 +104,7 @@ app.get('/api/auth/instagram', (req, res) => {
         //     res.status(500).send('An error occurred');
         // }
     })
-  //  })
+    })
 
 
 
