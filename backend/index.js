@@ -58,6 +58,8 @@ app.get('/api/auth/instagram', (req, res) => {
     res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
     console.log('authenticating user')
     
+    
+    
 });
 
  //app.get('/api/callback' , async (req, res) => {
@@ -90,7 +92,7 @@ app.get('/api/auth/instagram', (req, res) => {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                timout: 15000 // 15 seconds
+                timout: 25000 // 15 seconds
             });
     
             // Handle response
