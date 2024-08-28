@@ -16,13 +16,13 @@ const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_Secret;
 
 
-// app.use((req, res, next) => {
-//     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-//     next();
-// });
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+});
 
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 
 //catchcall when no backend routes are called
