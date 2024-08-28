@@ -69,40 +69,40 @@ app.get('/api/auth/instagram', (req, res) => {
         const { code } = req.query;
         res.send('code recieved')
     
-        if (!code) {
-            res.send("Authentication failed");
-            return;
-        } else {
-            console.log("Received authentication code:", code);
-            console.log('Sending authentication code');
-            console.log("Redirect URI:", hardcodedRedirectURI);
-        }
+        // if (!code) {
+        //     res.send("Authentication failed");
+        //     return;
+        // } else {
+        //     console.log("Received authentication code:", code);
+        //     console.log('Sending authentication code');
+        //     console.log("Redirect URI:", hardcodedRedirectURI);
+        // }
     
-        try {
-            const params = new URLSearchParams();
-            params.append('client_id', clientId);
-            params.append('client_secret', clientSecret);
-            params.append('grant_type', 'authorization_code');
-            params.append('redirect_uri', 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/profile');
-            params.append('code', code);
+        // try {
+        //     const params = new URLSearchParams();
+        //     params.append('client_id', clientId);
+        //     params.append('client_secret', clientSecret);
+        //     params.append('grant_type', 'authorization_code');
+        //     params.append('redirect_uri', 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/profile');
+        //     params.append('code', code);
     
-            console.log("Request Params:", params.toString());
+        //     console.log("Request Params:", params.toString());
     
-            const response = await axios.post('https://api.instagram.com/oauth/authorize', params.toString(), {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                timout: 25000 // 15 seconds
-            });
+        //     const response = await axios.post('https://api.instagram.com/oauth/authorize', params.toString(), {
+        //         headers: {
+        //             'Content-Type': 'application/x-www-form-urlencoded',
+        //         },
+        //         timout: 25000 // 15 seconds
+        //     });
     
-            // Handle response
-            req.session.accessToken = response.data.access_token;
-            req.session.userId = response.data.user_id;
-            res.redirect('/api/profile');
-        } catch (error) {
-            console.error('Error exchanging code for token:', error.response ? error.response.data : error.message);
-            res.status(500).send('An error occurred');
-        }
+        //     // Handle response
+        //     req.session.accessToken = response.data.access_token;
+        //     req.session.userId = response.data.user_id;
+        //     res.redirect('/api/profile');
+        // } catch (error) {
+        //     console.error('Error exchanging code for token:', error.response ? error.response.data : error.message);
+        //     res.status(500).send('An error occurred');
+        // }
     })
   //  })
 
