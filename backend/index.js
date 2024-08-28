@@ -54,7 +54,7 @@ const sslOptions = {
     cert: fs.readFileSync(path.resolve(__dirname, 'cert.pem')),
 };
 
-app.get('/api/auth/instagram', (req, res) => {
+app.get('/api/auth/instagram', async (req, res) => {
     res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
     console.log('authenticating user')
     
@@ -65,9 +65,9 @@ app.get('/api/auth/instagram', (req, res) => {
  //app.get('/api/callback' , async (req, res) => {
 
  
-    // app.get('/api/callback', async (req, res) => { ///reminder pointer
-    //     const { code } = req.query;
-    //     res.send('code recieved')
+    app.get('/api/callback', async (req, res) => { ///reminder pointer
+        const { code } = req.query;
+        res.send('code recieved')
     
         // if (!code) {
         //     res.send("Authentication failed");
@@ -103,7 +103,7 @@ app.get('/api/auth/instagram', (req, res) => {
         //     console.error('Error exchanging code for token:', error.response ? error.response.data : error.message);
         //     res.status(500).send('An error occurred');
         // }
-    // })
+    })
   //  })
 
 
