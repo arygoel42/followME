@@ -88,7 +88,7 @@ app.get('/api/auth/instagram', (req, res) => {
     
             console.log("Request Params:", params.toString());
     
-            const response = await axios.post('https://api.instagram.com/oauth/access_token', params.toString(), {
+            const response = await axios.post('https://api.instagram.com/oauth/authorize', params.toString(), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
