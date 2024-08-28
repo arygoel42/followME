@@ -90,7 +90,7 @@ app.get('/api/auth/instagram', (req, res) => {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                timout: 15000 
+                timout: 15000 // 15 seconds
             });
     
             // Handle response
