@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 
 const cors = require('cors');
 app.use(cors({
-    origin: 'https://your-frontend-url.vercel.app', // Replace with your frontend URL
+    origin: 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback', // Replace with your frontend URL
     credentials: true,
 }));
 
