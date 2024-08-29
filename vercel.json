@@ -21,14 +21,7 @@
       "src": "/(.*)",
       "dest": "/client/index.html"
     }
-  ],
-  "headers": [
-    {
-      "source": "/api/callback",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" }
-      ]
-    }
+    
   ]
+  
 }
