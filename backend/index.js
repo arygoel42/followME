@@ -21,13 +21,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://your-frontend-domain.com'); // Replace with your frontend URL
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-});
+const cors = require('cors');
+app.use(cors({
+    origin: 'https://your-frontend-url.vercel.app', // Replace with your frontend URL
+    credentials: true,
+}));
 
 
 app.use(express.json());
