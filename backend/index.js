@@ -43,7 +43,7 @@ app.get('/api/auth/instagram', async (req, res) => {
     // params_1.append('scope', 'user_profile,user_media');
     // params_1.append('response_type', 'code');
 
-    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
+    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=8852423798110118&redirect_uri=https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback&scope=user_profile,user_media&response_type=code`);
     console.log('authenticating user')
 
    
