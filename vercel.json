@@ -12,18 +12,16 @@
       "use": "@vercel/static-build"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "backend/index.js"
+      "source": "/api/(.*)",
+      "destination": "/backend/index.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/client/index.html"
+      "source": "/(.*)",
+      "destination": "/client/index.html"
     }
-    
   ],
-
   "headers": [
     {
       "source": "/api/callback",
@@ -33,5 +31,4 @@
       ]
     }
   ]
-  
 }
