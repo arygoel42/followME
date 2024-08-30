@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 
 const cors = require('cors');
 app.use(cors({
-    origin: 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app', // Replace with your frontend URL
+    origin: 'https://follow-me-nbqo.vercel.app', // Replace with your frontend URL
     credentials: true,
 }));
 
@@ -63,7 +63,7 @@ app.get('/api/auth/instagram', async (req, res) => {
  
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
-        
+        res.send('Received GET request');
     
         // if (!code) {
         //     res.send("Authentication failed");
