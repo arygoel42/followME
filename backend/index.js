@@ -65,7 +65,7 @@ app.get('/api/auth/instagram', async (req, res) => {
         const { code } = req.query;
         res.send('code recieved')
         
-        res.send("---> " + code)
+        res.send('hello world')
     
         // if (!code) {
         //     res.send("Authentication failed");
