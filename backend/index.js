@@ -28,6 +28,15 @@ app.use(cors({
 }));
 
 
+
+app.use(session({
+    secret: 'mongo-alpha-junior', // replace with a strong secret key
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true } // set to true if using HTTPS
+}));
+
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
