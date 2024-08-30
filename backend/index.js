@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 //catchcall when no backend routes are called
 
 const hardcodedRedirectURI = 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback';
-debugging_redirectURI = 'https://follow-me-nbqo.vercel.app/api/callback';
+debugging_redirectURI = 'https://follow-me-nbqo.vercel.app/api/callback/';
 
 
 
@@ -61,7 +61,7 @@ app.get('/api/auth/instagram', async (req, res) => {
  //app.get('/api/callback' , async (req, res) => {
 
  
-    app.get('/api/callback', async (req, res) => { ///reminder pointer
+    app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
         res.send('code recieved')
         res.send(code)
