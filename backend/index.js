@@ -130,6 +130,7 @@ app.post('/', (req, res) => {
 
 
 app.get('/api/profile', async (req, res) => {
+    console.log(access_token, user_id)
     const access_token = req.session.accessToken;
     const user_id = req.session.userID;
    
