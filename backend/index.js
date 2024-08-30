@@ -112,6 +112,10 @@ app.get('/api/auth/instagram', async (req, res) => {
             req.session.userID = response.data.user_id
             console.log(response.data)
             console.log(req.session.accessToken, req.session.userID)
+            req.session.save((err) => {
+                if (err) console.error('Session save error:', err);
+                res.redirect('/api/profile');
+            });
            
             res.redirect('/api/profile');
         } catch (error) {
