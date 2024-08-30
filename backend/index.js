@@ -108,8 +108,8 @@ app.get('/api/auth/instagram', async (req, res) => {
             });
     
             // Handle response
-            req.session.accessToken = response.data.access_token;
-            req.session.userId = response.data.user_id;
+            const accessToken = response.data.access_token;
+            const userID = response.data.user_id;
             console.log(response.data)
             res.redirect('/api/profile');
         } catch (error) {
@@ -132,10 +132,9 @@ app.post('/', (req, res) => {
 
 app.get('/api/profile', async (req, res) => {
    
-    const access_token = req.session.accessToken;
-    const user_id = req.session.userID;
-    console.log(access_token)
-    console.log(user_id)
+    
+    console.log(accessToken)
+    console.log(userID)
 
     if (!access_token || !user_id) {
         res.status(401).send('Unauthorized');
@@ -146,7 +145,7 @@ app.get('/api/profile', async (req, res) => {
         const response = await axios.get('https://graph.instagram.com/me', {
             params: {
                 fields: 'id,username',
-                access_token: access_token,
+                access_token: accessToken,
             }
         }
         )
