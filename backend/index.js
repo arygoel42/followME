@@ -108,9 +108,12 @@ app.get('/api/auth/instagram', async (req, res) => {
             });
     
             // Handle response
-            const accessToken = response.data.access_token;
+            req.session.accessToken = response.data.access_token;
+            req.session.userID = response.data.user
             const userID = response.data.user_id;
-            console.log(response.data)
+            console.log("Access Token:", accessToken);
+            console.log("User ID:", userID);
+           
             res.redirect('/api/profile');
         } catch (error) {
             console.error('Error exchanging code for token:', error.response ? error.response.data : error.message);
@@ -124,6 +127,7 @@ app.get('/api/auth/instagram', async (req, res) => {
 app.post('/', (req, res) => {
 
     
+    
     res.send('Received POST request');
 });
 
@@ -131,10 +135,13 @@ app.post('/', (req, res) => {
 
 
 app.get('/api/profile', async (req, res) => {
+
+    
    
     
-    console.log(accessToken)
-    console.log(userID)
+    const accessToken = req.session.accessToken;
+    const userID = req.session.userID;
+
 
     if (!access_token || !user_id) {
         res.status(401).send('Unauthorized');
