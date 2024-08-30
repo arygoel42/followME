@@ -140,7 +140,7 @@ app.get('/api/profile', async (req, res) => {
     const userID = req.session.userID;
 
 
-    if (!access_token || !user_id) {
+    if (!access_Token || !user_id) {
         res.status(401).send('Unauthorized');
         return;
     }
