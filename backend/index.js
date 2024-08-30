@@ -79,7 +79,7 @@ app.get('/api/auth/instagram', async (req, res) => {
             params.append('client_id', clientId);
             params.append('client_secret', clientSecret);
             params.append('grant_type', 'authorization_code');
-            params.append('redirect_uri', 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/profile');
+            params.append('redirect_uri', 'https://follow-me-nbqo.vercel.app/api/profile');
             params.append('code', code);
     
             console.log("Request Params:", params.toString());
