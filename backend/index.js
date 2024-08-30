@@ -63,7 +63,6 @@ app.get('/api/auth/instagram', async (req, res) => {
  
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
-        res.send('code recieveds' + code);
         
     
         if (!code) {
@@ -89,7 +88,7 @@ app.get('/api/auth/instagram', async (req, res) => {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                timout: 25000 // 15 seconds
+                
             });
     
             // Handle response
