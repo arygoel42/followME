@@ -155,7 +155,7 @@ app.get('/api/profile', async (req, res) => {
         const response = await axios.get('https://graph.instagram.com/me', {
             params: {
                 fields: 'id,username',
-                access_token: accessToken,
+                access_token: req.session.accessToken,
             }
         }
         )
