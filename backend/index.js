@@ -64,7 +64,6 @@ app.get('/api/auth/instagram', async (req, res) => {
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
         res.send('code recieved')
-        
         res.send('hello world')
     
         // if (!code) {
