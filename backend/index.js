@@ -110,6 +110,7 @@ app.get('/api/auth/instagram', async (req, res) => {
             // Handle response
             req.session.accessToken = response.data.access_token;
             req.session.userId = response.data.user_id;
+            console.log(response.data)
             res.redirect('/api/profile');
         } catch (error) {
             console.error('Error exchanging code for token:', error.response ? error.response.data : error.message);
