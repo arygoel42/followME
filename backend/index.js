@@ -114,7 +114,6 @@ app.get('/api/auth/instagram', async (req, res) => {
             console.log(req.session.accessToken, req.session.userID)
             req.session.save((err) => {
                 if (err) console.error('Session save error:', err);
-                res.redirect('/api/profile');
             });
            
             res.redirect('/api/profile');
