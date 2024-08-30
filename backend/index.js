@@ -139,6 +139,7 @@ app.get('/api/profile', async (req, res) => {
     
     const accessToken = req.session.accessToken;
     const userID = req.session.userID;
+    console.log(accessToken, userID)
 
 
     if (!accessToken || !userID) {
