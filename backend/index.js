@@ -72,7 +72,7 @@ app.get('/api/auth/instagram', async (req, res) => {
  
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
-        res.send('Received GET request');
+        // res.send('Received GET request');
     
         // if (!code) {
         //     res.send("Authentication failed");
@@ -88,7 +88,7 @@ app.get('/api/auth/instagram', async (req, res) => {
             params.append('client_id', clientId);
             params.append('client_secret', clientSecret);
             params.append('grant_type', 'authorization_code');
-            params.append('redirect_uri', 'https://follow-me-nbqo.vercel.app/api/callback');
+            params.append('redirect_uri', debugging_redirectURI);
             params.append('code', code);
     
             console.log("Request Params:", params.toString());
