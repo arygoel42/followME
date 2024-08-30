@@ -13,7 +13,7 @@ const session = require('express-session');
 
 const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
-const clientSecret = process.env.instagram_Client_Secret;
+const clientSecret = process.env.instagram_Client_secret;
 
 
 app.use((req, res, next) => {
