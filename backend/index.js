@@ -72,6 +72,10 @@ app.get('/api/auth/instagram', async (req, res) => {
  
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
+        console.log("Client ID:", clientId);
+        console.log("Client Secret:", clientSecret);
+        console.log("Redirect URI:", redirectURI);
+        console.log("Code:", code);
         // res.send('Received GET request');
     
         // if (!code) {
