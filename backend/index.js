@@ -111,6 +111,7 @@ app.get('/api/auth/instagram', async (req, res) => {
             req.session.accessToken = response.data.access_token;
             req.session.userID = response.data.user_id
             console.log(response.data)
+            console.log(req.session.accessToken, req.session.userID)
            
             res.redirect('/api/profile');
         } catch (error) {
