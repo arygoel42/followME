@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 //catchcall when no backend routes are called
 
 const hardcodedRedirectURI = 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback';
-debugging_redirectURI = 'https://follow-me-nbqo.vercel.app/';
+debugging_redirectURI = 'https://follow-me-nbqo.vercel.app';
 
 
 
@@ -49,7 +49,7 @@ app.get('/api/auth/instagram', async (req, res) => {
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
     
 
-    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=https://follow-me-nbqo.vercel.app/&scope=user_profile,user_media&response_type=code`);
+    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${debugging_redirectURI}&scope=user_profile,user_media&response_type=code`);
     console.log('authenticating user')
 
    
