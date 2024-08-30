@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 //catchcall when no backend routes are called
 
 const hardcodedRedirectURI = 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback';
-debugging_redirectURI = 'https://follow-me-nbqo.vercel.app/';
+debugging_redirectURI = 'https://follow-me-nbqo.vercel.app/api/callback';
 
 
 
