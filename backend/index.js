@@ -64,7 +64,7 @@ mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
 
     const Access = mongoose.model('Access', access_Schema);
     const access = new Access({accessToken: '123', userID: '123'});
-    const result = await access.save();
+    const result = access.save();
 
 
 //catchcall when no backend routes are called
