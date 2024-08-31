@@ -76,7 +76,7 @@ app.get('/api/auth/instagram', async (req, res) => {
 
     const Access = mongoose.model('Access', access_Schema);
     const access = new Access({accessToken: '123', userID: '123'});
-    const result = access.save();
+    const result = await access.save();
     console.log(result)
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
