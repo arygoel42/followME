@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_secret;
-mongoURI = "mongodb+srv://aryangoel574:<Hisupyo@7058>@cluster0.xwshw.mongodb.net/"
+mongoURI = "mongodb+srv://aryangoel574:<Hisupyo@7058>@cluster0.xwshw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 
 
