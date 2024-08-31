@@ -42,7 +42,21 @@ app.use(session({
 }));
 
 
+mongoose.connect('mongodb://localhost:27017')
+    .then(() =>  console.log('MongoDB connected!'))
 
+
+
+    const access_Schema = new mongoose.Schema({
+        accessToken: {
+            type: String,
+            required: true
+        },
+        userID: {
+            type: String,
+            required: true
+        }
+    })
 
 
 //catchcall when no backend routes are called
@@ -58,21 +72,7 @@ const sslOptions = {
 };
 
 app.get('/api/auth/instagram', async (req, res) => {
-    mongoose.connect('mongodb://localhost:27017')
-    .then(() =>  console.log('MongoDB connected!'))
-
-
-
-    const access_Schema = new mongoose.Schema({
-        accessToken: {
-            type: String,
-            required: true
-        },
-        userID: {
-            type: String,
-            required: true
-        }
-    })
+    
 
     const Access = mongoose.model('Access', access_Schema);
     const access = new Access({accessToken: '123', userID: '123'});
