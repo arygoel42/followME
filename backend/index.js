@@ -72,7 +72,7 @@ app.get('/api/auth/instagram', async (req, res) => {
  
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
-        console.log("Client ID:", '8852423798110118');
+        console.log("Client IDs:", '8852423798110118');
         console.log("Client Secret:", '211593af305e2f28b2e464637c56be7b');
         console.log("Redirect URI:", debugging_redirectURI);
         console.log("Code:", code);
