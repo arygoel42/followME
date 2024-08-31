@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const mongoose = require('mongoose');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
 
@@ -22,7 +23,38 @@ const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_secret;
 mongoURI = "mongodb+srv://aryangoel574:<Hisupyo@7058>@cluster0.xwshw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const client = new MongoClient(mongoURI, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+  });
 
+async function connectToDatabase() {
+    try {
+        await client.connect();
+        await client.db("admin").command({ ping: 1 });
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    }
+    catch (err) {
+        console.error('MongoDB connection error:', err);
+
+    }
+}
+
+connectToDatabase()
+
+async function createAccessCollection() {
+    const db = client.db('Instagram_API');
+    const accessCollection = db.collection('Access');
+  
+    // Insert a document into the collection
+    const access = { accessToken: '123', userID: '123' };
+    const result = await accessCollection.insertOne(access);
+    console.log(result);
+  }
+  
 
 
 app.use((req, res, next) => {
@@ -46,26 +78,13 @@ app.use(session({
 }));
 
 
-mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
-    .then(() =>  console.log('MongoDB connected!'))
 
 
 
-    const access_Schema = new mongoose.Schema({
-        accessToken: {
-            type: String,
-            required: true
-        },
-        userID: {
-            type: String,
-            required: true
-        }
-    })
 
-    const Access = mongoose.model('Access', access_Schema);
-    const access = new Access({accessToken: '123', userID: '123'});
-    const result = access.save();
+    
 
+    
 
 //catchcall when no backend routes are called
 
@@ -80,6 +99,10 @@ const sslOptions = {
 };
 
 app.get('/api/auth/instagram', async (req, res) => {
+
+    await createAccessCollection()
+
+
     
 
    
