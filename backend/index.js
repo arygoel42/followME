@@ -5,6 +5,10 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const mongoose = require('mongoose');
+
+
+
 
 
 
@@ -54,6 +58,26 @@ const sslOptions = {
 };
 
 app.get('/api/auth/instagram', async (req, res) => {
+    mongoose.connect('mongodb://localhost:27017/Instagram_API')
+    .then(() =>  console.log('MongoDB connected!'))
+
+
+
+    const access_Schema = new mongoose.Schema({
+        accessToken: {
+            type: String,
+            required: true
+        },
+        userID: {
+            type: String,
+            required: true
+        }
+    })
+
+    const Access = mongoose.model('Access', access_Schema);
+    const access = new Access({accessToken: '123', userID: '123'});
+    const result = access.save();
+    console.log(result)
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
     
