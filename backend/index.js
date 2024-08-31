@@ -58,25 +58,44 @@ const sslOptions = {
 };
 
 app.get('/api/auth/instagram', async (req, res) => {
-    mongoose.connect('mongodb://localhost:27017/Instagram_API')
-    .then(() =>  console.log('MongoDB connected!'))
+mongoose.connect('mongodb://localhost:27017', {
+    
+})
+    .then(() => console.log('MongoDB connected!'))
+    .catch(err => console.log(err));
 
 
+//creates a scheme for the Class and objects in the database
+const userSchema = new mongoose.Schema({
+    username: String, 
+    followers: [String], 
+    following: [String]
+})
 
-    const access_Schema = new mongoose.Schema({
-        accessToken: {
-            type: String,
-            required: true
-        },
-        userID: {
-            type: String,
-            required: true
-        }
+//creates a class called User from the userSchema
+const User = mongoose.model('User', userSchema)
+
+//creates 2 objects with the class scehema and saves it to the database 
+//async functions 
+const develop_user = async() => {
+    const user = new User({
+        username: 'sam samuel', 
+        followers: ['john', 'joseph', 'peter'], 
+        following: ['john', 'joseph', 'peter']
     })
+    const user1 = new User({
+        username: 'test', 
+        followers: ['john', 'joseph', 'peter'], 
+        following: ['john', 'joseph', 'peter']
+    })
+    
+    await user.save()
+    await user1.save()
+    
+}
 
-    const Access = mongoose.model('Access', access_Schema);
-    const access = new Access({accessToken: '123', userID: '123'});
-    const result = await access.save();
+develop_user()
+
     console.log(result)
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
