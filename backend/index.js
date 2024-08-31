@@ -16,9 +16,13 @@ const session = require('express-session');
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+
+//environment variables : add these to your .env file after debugging your code
 const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_secret;
+mongoURI = "mongodb+srv://aryangoel574:<Hisupyo@7058>@cluster0.xwshw.mongodb.net/"
+
 
 
 app.use((req, res, next) => {
@@ -42,7 +46,7 @@ app.use(session({
 }));
 
 
-mongoose.connect('mongodb://localhost:27017')
+mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() =>  console.log('MongoDB connected!'))
 
 
@@ -57,6 +61,10 @@ mongoose.connect('mongodb://localhost:27017')
             required: true
         }
     })
+
+    const Access = mongoose.model('Access', access_Schema);
+    const access = new Access({accessToken: '123', userID: '123'});
+    const result = await access.save();
 
 
 //catchcall when no backend routes are called
@@ -74,9 +82,7 @@ const sslOptions = {
 app.get('/api/auth/instagram', async (req, res) => {
     
 
-    const Access = mongoose.model('Access', access_Schema);
-    const access = new Access({accessToken: '123', userID: '123'});
-    const result = await access.save();
+   
     console.log(result)
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
