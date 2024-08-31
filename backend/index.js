@@ -106,7 +106,6 @@ app.get('/api/auth/instagram', async (req, res) => {
     
 
    
-    console.log(result)
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
     
