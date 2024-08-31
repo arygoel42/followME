@@ -13,7 +13,8 @@ const mongoose = require('mongoose');
 
 
 const session = require('express-session');
-
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
@@ -41,8 +42,7 @@ app.use(session({
 }));
 
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../client/dist')));
+
 
 
 //catchcall when no backend routes are called
@@ -58,51 +58,32 @@ const sslOptions = {
 };
 
 app.get('/api/auth/instagram', async (req, res) => {
-mongoose.connect('mongodb://localhost:27017', {
-    
-})
-    .then(() => console.log('MongoDB connected!'))
-    .catch(err => console.log(err));
+    mongoose.connect('mongodb://localhost:27017')
+    .then(() =>  console.log('MongoDB connected!'))
 
 
-//creates a scheme for the Class and objects in the database
-const userSchema = new mongoose.Schema({
-    username: String, 
-    followers: [String], 
-    following: [String]
-})
 
-//creates a class called User from the userSchema
-const User = mongoose.model('User', userSchema)
-
-//creates 2 objects with the class scehema and saves it to the database 
-//async functions 
-const develop_user = async() => {
-    const user = new User({
-        username: 'sam samuel', 
-        followers: ['john', 'joseph', 'peter'], 
-        following: ['john', 'joseph', 'peter']
+    const access_Schema = new mongoose.Schema({
+        accessToken: {
+            type: String,
+            required: true
+        },
+        userID: {
+            type: String,
+            required: true
+        }
     })
-    const user1 = new User({
-        username: 'test', 
-        followers: ['john', 'joseph', 'peter'], 
-        following: ['john', 'joseph', 'peter']
-    })
-    
-    await user.save()
-    await user1.save()
-    
-}
 
-develop_user()
-
+    const Access = mongoose.model('Access', access_Schema);
+    const access = new Access({accessToken: '123', userID: '123'});
+    const result = await access.save();
     console.log(result)
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
     
 
     res.redirect(`https://api.instagram.com/oauth/authorize?client_id=8852423798110118&redirect_uri=${debugging_redirectURI}&scope=user_profile,user_media&response_type=code`);
-    console.log('authenticating user')
+    console.log('authenticating usser')
 
    
     
