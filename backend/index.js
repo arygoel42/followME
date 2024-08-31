@@ -32,7 +32,7 @@ app.use(cors({
 app.use(session({
     secret: 'mongo-alpha-junior', // replace with a strong secret key
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { secure: true } // set to true if using HTTPS
 }));
 
