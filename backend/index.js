@@ -200,12 +200,11 @@ app.get('/api/profile', async (req, res) => {
         const accessCollection = db.collection('Access');
 
         const recentEntry = await accessCollection.find().sort({ _id: -1 }).limit(1).toArray();
-
-        if (recentEntry.lenght > 0 ) {
-            const accToken = res.json(recentEntry[0].accessToken);
-        }
-        else {
-            res.send('No data found');
+        console.log(recentEntry);
+        if (recentEntry.length > 0) {
+            accToken = recentEntry[0].accessToken; // Assign the token to accToken
+        } else {
+            return res.send('No data found');
         }
 
     }
