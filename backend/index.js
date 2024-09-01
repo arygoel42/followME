@@ -194,6 +194,8 @@ app.post('/', (req, res) => {
 
 
 app.get('/api/profile', async (req, res) => {
+
+
     try {
 
         const db = client.db('Instagram_API');
@@ -207,6 +209,13 @@ app.get('/api/profile', async (req, res) => {
             return res.send('No data found');
         }
 
+        if (recentEntry.lenght > 3) {
+            oldestEntry = await accessCollection.find().sort({ _id: 1 }).limit(1).toArray();
+
+            await accessCollection.deleteOne({ _id: oldestEntry[0]._id });
+            console.log('Oldest entry deleted:', oldestEntry[0]);
+        }
+
     }
 
     catch (error) {
@@ -214,16 +223,6 @@ app.get('/api/profile', async (req, res) => {
         res.status(500).send('An error occurred');
     }
         
-
-
-
-    
-   
-    
-    
-
-
-   
 
     try {
         const response = await axios.get('https://graph.instagram.com/me', {
@@ -234,7 +233,6 @@ app.get('/api/profile', async (req, res) => {
         }
         )
 
-        res.send(`<h1>Hello, ${response.data.username}, your followers count is ${response.data.followers_count}!</h1>`);
         console.log(response.data.username, response.data.followers_count)
     
     }
@@ -243,7 +241,31 @@ app.get('/api/profile', async (req, res) => {
         console.error('Error fetching user profile:', error.response ? error.response.data : error.message);
         res.status(500).send('An error occurred');
     }
+
+    try {
+        const mediaResponse = await axios.get('https://graph.instagram.com/me/media', {
+            params: {
+                fields: 'id,caption,media_type,media_url,thumbnail_url,permalink',
+                access_token: accToken,
+            }
+        })
+    }
+
+
+    
+    catch (error) {
+        console.error('Error fetching user profile:', error.response ? error.response.data : error.message);
+        res.status(500).send('An error occurred');
+    }
+
+    res.send("hello" + response.data.username + " " + response.data.followers_count + " " + mediaResponse.data.data[0].caption + " " + mediaResponse.data.data[0].media_url); 
+
 })
+
+
+
+   
+    
 // Using https.createServer with SSL options for HTTPS server
 // https.createServer(sslOptions, app).listen(3006, '0.0.0.0', () => {
 //     console.log('HTTPS Server running at https://localhost:3007');
