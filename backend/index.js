@@ -12,6 +12,8 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
 const session = require('express-session');
+
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
@@ -21,6 +23,9 @@ const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_secret;
 const mongoURI = process.env.mongo_URI
+
+
+
 const client = new MongoClient(mongoURI, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -29,6 +34,8 @@ const client = new MongoClient(mongoURI, {
     }
   });
 
+
+ //connecting to mondoDB atlas database  
 async function connectToDatabase() {
     try {
         await client.connect();
@@ -46,12 +53,14 @@ connectToDatabase()
 
   
 
-
+//middlewear that could be used to avoid cross origin errors
+//sets the header for cross origin requests 
 app.use((req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     next();
 });
 
+//antother middlewear instance that could be used to avoid cors errors 
 const cors = require('cors');
 app.use(cors({
     origin: 'https://follow-me-nbqo.vercel.app', // Replace with your frontend URL
@@ -59,75 +68,30 @@ app.use(cors({
 }));
 
 
-
-app.use(session({
-    secret: 'mongo-alpha-junior', // replace with a strong secret key
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: true } // set to true if using HTTPS
-}));
-
-
-
-
-
-
-    
-
-    
-
-//catchcall when no backend routes are called
-
-debugging_redirectURI = 'https://follow-me-nbqo.vercel.app/api/callback';
-
-
-
-const sslOptions = {
-    key: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
-    cert: fs.readFileSync(path.resolve(__dirname, 'cert.pem')),
-};
-
 app.get('/api/auth/instagram', async (req, res) => {
-
-
-
-    
-
    
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
     
 
-    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${debugging_redirectURI}&scope=user_profile,user_media&response_type=code`);
+    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectURI}&scope=user_profile,user_media&response_type=code`);
     console.log('authenticating usser')
-
-   
-    
-    
     
 });
 
- //app.get('/api/callback' , async (req, res) => {
 
  
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
+        //gets code from url, query paramters 
         const { code } = req.query;
         console.log("Client IDs:", clientId);
         console.log("Client Secret:", clientSecret);
         console.log("Redirect URI:", redirectURI);
         console.log("Code:", code);
-        // res.send('Received GET request');
-    
-        // if (!code) {
-        //     res.send("Authentication failed");
-        //     return;
-        // } else {
-        //     console.log("Received authentication code:", code);
-        //     console.log('Sending authentication code');
-        //     console.log("Redirect URI:", hardcodedRedirectURI);
-        // }
+       
     
         try {
+            //attaches query string parameters to request body
             const params = new URLSearchParams();
             params.append('client_id', clientId);
             params.append('client_secret', clientSecret);
@@ -136,7 +100,7 @@ app.get('/api/auth/instagram', async (req, res) => {
             params.append('code', code);
     
             console.log("Request Params:", params.toString());
-    
+            //send reuqest to instagram for accsess code with the request body
             const response = await axios.post('https://api.instagram.com/oauth/access_token', params.toString(), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -151,15 +115,8 @@ app.get('/api/auth/instagram', async (req, res) => {
               
     
             // Handle response
-            req.session.accessToken = response.data.access_token;
-            req.session.userID = response.data.user_id
-            console.log(response.data)
-            console.log(req.session.accessToken, req.session.userID)
-            req.session.save((err) => {
-                if (err) console.error('Session save error:', err);
-            });
-
-            async function createAccessCollection() {
+            //adding the access token to the database
+                async function createAccessCollection() {
                 const db = client.db('Instagram_API');
                 const accessCollection = db.collection('Access');
               
@@ -176,19 +133,7 @@ app.get('/api/auth/instagram', async (req, res) => {
             res.status(500).send('An error occurred');
         }
     })
-  //  })
-
-
-
-app.post('/', (req, res) => {
-
-    
-    
-    res.send('Received POST request');
-});
-
-
-
+ 
 
 app.get('/api/profile', async (req, res) => {
 
@@ -197,7 +142,7 @@ app.get('/api/profile', async (req, res) => {
 
         const db = client.db('Instagram_API');
         const accessCollection = db.collection('Access');
-
+        //returns the most recent entry and limits to 1 and sorts by decending order
         const recentEntry = await accessCollection.find().sort({ _id: -1 }).limit(1).toArray();
         console.log(recentEntry);
         if (recentEntry.length > 0) {
@@ -205,10 +150,10 @@ app.get('/api/profile', async (req, res) => {
         } else {
             return res.send('No data found');
         }
-
+        //deletes the oldest entry to avoid overloading the database
         if (recentEntry.lenght > 3) {
             oldestEntry = await accessCollection.find().sort({ _id: 1 }).limit(1).toArray();
-
+            //deletes by the id found in the oldest entry
             await accessCollection.deleteOne({ _id: oldestEntry[0]._id });
             console.log('Oldest entry deleted:', oldestEntry[0]);
         }
@@ -220,7 +165,7 @@ app.get('/api/profile', async (req, res) => {
         res.status(500).send('An error occurred');
     }
         
-
+    //pulls data from isntagram api 
     try {
         response = await axios.get('https://graph.instagram.com/me', {
             params: {
@@ -238,7 +183,7 @@ app.get('/api/profile', async (req, res) => {
         console.error('Error fetching user profile:', error.response ? error.response.data : error.message);
         res.status(500).send('An error occurred');
     }
-
+//pulls data from instagram api and gets the most recent media
     try {
          mediaResponse = await axios.get('https://graph.instagram.com/me/media', {
             params: {
@@ -261,22 +206,10 @@ app.get('/api/profile', async (req, res) => {
 
 
 
-   
-    
-// Using https.createServer with SSL options for HTTPS server
-// https.createServer(sslOptions, app).listen(3006, '0.0.0.0', () => {
-//     console.log('HTTPS Server running at https://localhost:3007');
-// });
 
+//catchcall when no backend routes are called. sends index.html
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
   });
   
 module.exports = app;
-// app.listen(3006, () => {
-//     console.log('HTTP Server running at http://localhost:3006');
-// });
-
-// https.createServer(sslOptions, app).listen(3006, 'localhost', () => {
-//     console.log('HTTPS Server running at https://localhost:3006');
-//   });
