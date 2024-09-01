@@ -225,7 +225,7 @@ app.get('/api/profile', async (req, res) => {
         
 
     try {
-        const response = await axios.get('https://graph.instagram.com/me', {
+        response = await axios.get('https://graph.instagram.com/me', {
             params: {
                 fields: 'id,username,followers_count,media_count',
                 access_token: accToken,
@@ -243,7 +243,7 @@ app.get('/api/profile', async (req, res) => {
     }
 
     try {
-        const mediaResponse = await axios.get('https://graph.instagram.com/me/media', {
+         mediaResponse = await axios.get('https://graph.instagram.com/me/media', {
             params: {
                 fields: 'id,caption,media_type,media_url,thumbnail_url,permalink',
                 access_token: accToken,
