@@ -228,13 +228,13 @@ app.get('/api/profile', async (req, res) => {
     try {
         const response = await axios.get('https://graph.instagram.com/me', {
             params: {
-                fields: 'id,username,followers_count,media_count',
+                fields: 'id,username,follower_count,media_count',
                 access_token: accToken,
             }
         }
         )
 
-        res.send(`<h1>Hello, ${response.data.username}, your followers count is ${response.data.followers_count}!</h1>`);
+        res.send(`<h1>Hello, ${response.data.username}, your followers count is ${response.data.follower_count}!</h1>`);
     
     }
 
