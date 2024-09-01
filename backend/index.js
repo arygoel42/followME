@@ -45,15 +45,7 @@ async function connectToDatabase() {
 
 connectToDatabase()
 
-async function createAccessCollection() {
-    const db = client.db('Instagram_API');
-    const accessCollection = db.collection('Access');
-  
-    // Insert a document into the collection
-    const access = { accessToken: '123', userID: '123' };
-    const result = await accessCollection.insertOne(access);
-    console.log(result);
-  }
+
   
 
 
@@ -100,7 +92,6 @@ const sslOptions = {
 
 app.get('/api/auth/instagram', async (req, res) => {
 
-    await createAccessCollection()
 
 
     
@@ -158,6 +149,9 @@ app.get('/api/auth/instagram', async (req, res) => {
                 
                 
             });
+            
+
+              
     
             // Handle response
             req.session.accessToken = response.data.access_token;
@@ -167,6 +161,17 @@ app.get('/api/auth/instagram', async (req, res) => {
             req.session.save((err) => {
                 if (err) console.error('Session save error:', err);
             });
+
+            async function createAccessCollection() {
+                const db = client.db('Instagram_API');
+                const accessCollection = db.collection('Access');
+              
+                // Insert a document into the collection
+                const access = { accessToken: response.data.access_token, userID: response.data.user_id };
+                const result = await accessCollection.insertOne(access);
+                console.log(result);
+              }
+            createAccessCollection()
            
             res.redirect('/api/profile');
         } catch (error) {
@@ -189,25 +194,43 @@ app.post('/', (req, res) => {
 
 
 app.get('/api/profile', async (req, res) => {
+    try {
+
+        const db = client.db('Instagram_API');
+        const accessCollection = db.collection('Access');
+
+        const recentEntry = await accessCollection.find().sort({ _id: -1 }).limit(1).toArray();
+
+        if (recentEntry.lenght > 0 ) {
+            const accToken = res.json(recentEntry[0].accessToken);
+        }
+        else {
+            res.send('No data found');
+        }
+
+    }
+
+    catch (error) {
+        console.error('Error fetching user profile:', error.response ? error.response.data : error.message);
+        res.status(500).send('An error occurred');
+    }
+        
+
+
 
     
    
     
-    const accessToken = req.session.accessToken;
-    const userID = req.session.userID;
-    console.log(accessToken, userID)
+    
 
 
-    if (!accessToken || !userID) {
-        res.status(401).send('Unauthorized');
-        return;
-    }
+   
 
     try {
         const response = await axios.get('https://graph.instagram.com/me', {
             params: {
                 fields: 'id,username',
-                access_token: req.session.accessToken,
+                access_token: accToken,
             }
         }
         )
