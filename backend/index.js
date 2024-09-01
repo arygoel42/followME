@@ -259,7 +259,7 @@ app.get('/api/profile', async (req, res) => {
     }
 
 
-    res.send({ username: response.data.username,  media_count: response.data.media_count, media: mediaResponse.data.data })
+    res.send({ username: response.data.username,  media_count: response.data.media_count, media: mediaResponse.data.data[0].media_url, caption: mediaResponse.data.data[0].caption, followers_count: response.data.followers_count })
 })
 
 
