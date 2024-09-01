@@ -259,7 +259,21 @@ app.get('/api/profile', async (req, res) => {
     }
 
 
-    res.send({ username: response.data.username, media_count: response.data.media_count, media: mediaResponse.data.data })
+    const username = response.data.username;
+    const followersCount = response.data.followers_count;
+    const mediaItems = mediaResponse.data.data;
+
+    // Filter out only the images
+    const images = mediaItems.filter(item => item.media_type === 'IMAGE').map(item => item.media_url);
+
+    // Send a response containing profile info and image URLs
+    res.send(`
+        <h1>Hello, ${username}, your followers count is ${followersCount}!</h1>
+        <h2>Your Images:</h2>
+        <ul>
+            ${images.map(url => `<li><img src="${url}" alt="User Image" width="200"></li>`).join('')}
+        </ul>
+    `);
 })
 
 
