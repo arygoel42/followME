@@ -1,11 +1,9 @@
 const express = require('express');
 require('dotenv').config();
 const app = express();
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-const mongoose = require('mongoose');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
@@ -22,7 +20,7 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 const redirectURI = process.env.RedirectURI;
 const clientId = process.env.instagram_Client_ID;
 const clientSecret = process.env.instagram_Client_secret;
-mongoURI = "mongodb+srv://aryangoel574:Hisupyo%407058@cluster0.xwshw.mongodb.net/Instagram_API?retryWrites=true&w=majority"
+const mongoURI = process.env.mongo_URI
 const client = new MongoClient(mongoURI, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -80,7 +78,6 @@ app.use(session({
 
 //catchcall when no backend routes are called
 
-const hardcodedRedirectURI = 'https://follow-me-nbqo-7iyt678o3-arygoel42s-projects.vercel.app/api/callback';
 debugging_redirectURI = 'https://follow-me-nbqo.vercel.app/api/callback';
 
 
@@ -101,7 +98,7 @@ app.get('/api/auth/instagram', async (req, res) => {
     res.set('Cross-Origin-Resource-Policy', 'cross-origin');
     
 
-    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=8852423798110118&redirect_uri=${debugging_redirectURI}&scope=user_profile,user_media&response_type=code`);
+    res.redirect(`https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${debugging_redirectURI}&scope=user_profile,user_media&response_type=code`);
     console.log('authenticating usser')
 
    
@@ -115,9 +112,9 @@ app.get('/api/auth/instagram', async (req, res) => {
  
     app.get('/api/callback/', async (req, res) => { ///reminder pointer
         const { code } = req.query;
-        console.log("Client IDs:", '8852423798110118');
-        console.log("Client Secret:", '211593af305e2f28b2e464637c56be7b');
-        console.log("Redirect URI:", debugging_redirectURI);
+        console.log("Client IDs:", clientId);
+        console.log("Client Secret:", clientSecret);
+        console.log("Redirect URI:", redirectURI);
         console.log("Code:", code);
         // res.send('Received GET request');
     
@@ -132,10 +129,10 @@ app.get('/api/auth/instagram', async (req, res) => {
     
         try {
             const params = new URLSearchParams();
-            params.append('client_id', '8852423798110118');
-            params.append('client_secret', '211593af305e2f28b2e464637c56be7b');
+            params.append('client_id', clientId);
+            params.append('client_secret', clientSecret);
             params.append('grant_type', 'authorization_code');
-            params.append('redirect_uri', 'https://follow-me-nbqo.vercel.app/api/callback');
+            params.append('redirect_uri', redirectURI);
             params.append('code', code);
     
             console.log("Request Params:", params.toString());
