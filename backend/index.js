@@ -271,7 +271,7 @@ app.get('/api/profile', async (req, res) => {
         <h1>Hello, ${username}, your followers count is ${followersCount}!</h1>
         <h2>Your Images:</h2>
         <ul>
-            ${images.map(url => `<li><img src="${url}" alt="User Image" width="200"></li>`).join('')}
+            ${images.map(url => `<li><img src="${images}" alt="User Image" width="200"></li>`).join('')}
         </ul>
     `);
 })
