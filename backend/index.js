@@ -258,8 +258,8 @@ app.get('/api/profile', async (req, res) => {
         res.status(500).send('An error occurred');
     }
 
-    res.send("hello" + response.data.username + " " + response.data.followers_count + " " + mediaResponse.data.data[0].caption + " " + mediaResponse.data.data[0].media_url); 
 
+    res.send({ username: response.data.username, media_count: response.data.media_count, media: mediaResponse.data.data })
 })
 
 
