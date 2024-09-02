@@ -3,7 +3,7 @@ import App from "../App.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "https://follow-me-nbqo.vercel.app",
     element: <App />,
   },
 ]);
