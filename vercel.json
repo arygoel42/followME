@@ -9,7 +9,10 @@
     },
     {
       "src": "client/package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "../client/dist"
+      }
      
       
     }
@@ -21,7 +24,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/client/dist/index.html"
+      "destination": "../client/dist/index.html"
     }
   ],
   "headers": [

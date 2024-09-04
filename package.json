@@ -5,8 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "vite build",
-    "start": "vite",
-    "dev": "vite"
+    "start": "vite && node index.js",
+    "dev": "concurrently \"cd backend && node index.js\" \"cd client && vite\""
+    
   },
   "keywords": [],
   "author": "",

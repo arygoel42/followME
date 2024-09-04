@@ -211,5 +211,10 @@ app.get('/api/profile', async (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/dist', 'index.html'));
   });
+
+
+app.listen(5173, () => {
+    console.log("hello world");
+  });
   
 module.exports = app;
