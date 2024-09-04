@@ -1,10 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App.tsx";
+// import App from "../App.tsx";
+import Placeholder from "../placeholder.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Placeholder />,
+  },
+  {
+    path: "/placeholder",
+    element: <Placeholder />,
   },
 ]);
 
